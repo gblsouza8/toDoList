@@ -1,6 +1,6 @@
 import json
 
-def adicionarTarefa(nome_tarefa, status_tarefa):
+def adicionarTarefa(nome_tarefa):
     try:
         with open('tarefas.json', 'r') as arquivo:
             dados = json.load(arquivo)
@@ -8,7 +8,6 @@ def adicionarTarefa(nome_tarefa, status_tarefa):
         novaTarefa = {
             "id": len(dados["tarefas"]) + 1,
             "tarefa": nome_tarefa,
-            "status": status_tarefa
         }
 
         dados["tarefas"].append(novaTarefa)
@@ -45,6 +44,35 @@ def removerTarefa(id_tarefa):
     except FileNotFoundError:
         print("Arquivo tarefas.json não foi encontrado.")
 
+def visualizarTarefas():
+    try: 
+        with open('tarefas.json', 'r') as arquivo:
+            dados = json.load(arquivo)
+
+            for tarefa in dados["tarefas"]:
+                print(f"ID: {tarefa['id']} | Tarefa: {tarefa['tarefa']}")
+
+    except FileNotFoundError:
+        print("Arquivo tarefas.json não foi encontrado.")
 
 
 
+def console():
+    escolha = int(input("O que você deseja fazer?\n1. Visualizar tarefas\n2. Adicionar tarefas\n3. Remover tarefas\n0. Sair\n"))
+    if escolha == 1:
+        visualizarTarefas()
+    elif escolha == 2:
+        tarefa = input("Qual tarefa você gostaria de adicionar? ")
+        adicionarTarefa(tarefa)
+    elif escolha == 3:
+        tarefa = int(input("Digite o ID da tarefa que você gostaria de remover: "))
+        removerTarefa(tarefa)
+    elif escolha == 0:
+        exit()
+    else: 
+        print("Escolha inválida.")
+        console()
+
+
+console()
+    
