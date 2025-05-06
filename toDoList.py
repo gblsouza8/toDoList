@@ -49,24 +49,28 @@ def visualizarTarefas():
         with open('tarefas.json', 'r') as arquivo:
             dados = json.load(arquivo)
 
+        if dados["tarefas"]:
             for tarefa in dados["tarefas"]:
                 print(f"ID: {tarefa['id']} | Tarefa: {tarefa['tarefa']}")
+        else:
+            print("Nenhuma tarefa foi encontrada")
 
     except FileNotFoundError:
         print("Arquivo tarefas.json não foi encontrado.")
-
-
 
 def console():
     escolha = int(input("O que você deseja fazer?\n1. Visualizar tarefas\n2. Adicionar tarefas\n3. Remover tarefas\n0. Sair\n"))
     if escolha == 1:
         visualizarTarefas()
+        console()
     elif escolha == 2:
         tarefa = input("Qual tarefa você gostaria de adicionar? ")
         adicionarTarefa(tarefa)
+        console()
     elif escolha == 3:
         tarefa = int(input("Digite o ID da tarefa que você gostaria de remover: "))
         removerTarefa(tarefa)
+        console()
     elif escolha == 0:
         exit()
     else: 
@@ -75,4 +79,3 @@ def console():
 
 
 console()
-    
